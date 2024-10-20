@@ -14,4 +14,4 @@ We downloaded FITS files at https://heasarc.gsfc.nasa.gov/FTP/fermi/data/lat/wee
 - 1;	010;	2008-08-07;		039;	2009-03-04
 - 2;	210;	2012-06-07;		239;	2013-01-03
 - 3;	410;	2016-04-07;		439;	2016-10-27
-This structured approach allowed us to conduct a comprehensive time-based comparison across different types of transmitters.
+<p>This structured approach allowed us to conduct a comprehensive time-based comparison across different types of transmitters.</p>
