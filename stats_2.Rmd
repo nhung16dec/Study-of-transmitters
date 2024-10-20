@@ -1,0 +1,84 @@
+---
+title: "Part 2"
+author: "TRAN Thi Hong Nhung"
+date: "2024-06-01"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+suppressPackageStartupMessages(library(knitr))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(GGally))
+suppressPackageStartupMessages(library(dplyr))
+```
+#Graphique pour analyser des types émetteurs sur 3 périodes
+```{r}
+bar_erreur <- function(data, detail, tranche){
+  title <- paste("IC de la moyenne d'énergie des ", toupper(nom_emet))
+  if(detail == TRUE) title <- paste(title,"en", annee)
+  if (tranche == TRUE) title <- paste(title,"[",energie_debut,":",energie,"]meV")
+  g <- ggplot(data, aes(x = nom, y = moyenne, group = 1, ymin = borne_inf, ymax = borne_sup)) +
+      geom_errorbar(color = "blue", width = 0.4) +
+      geom_point(size = 2, color = "red") +
+      geom_line() +
+      labs(x = "Emetteur", y = "Énergie", title = title)+
+      theme_bw() +
+      theme(plot.title = element_text(hjust = 0.5, size = 10))
+  return(g)
+  }
+for (nom_emet in c("psr","fsrq","bll","bcu","agn","unk","snr")){
+  print(paste("Analyse des émetteur du type",nom_emet))
+  for (annee in c(2008,2012,2016)) {
+    print(paste("Analyse des émetteur du type",nom_emet, "en",annee))
+    data <- read.csv("bilan0.csv", sep = ";")
+    data <- data[endsWith(data$nom, nom_emet), ]
+    data <- data[data$annee == annee,]
+    print(bar_erreur(data,TRUE,FALSE))
+  }
+  print(paste("Analyse des émetteur du type",nom_emet, "sur 3 périodes"))
+  for (energie in c(0,500,1000)) {
+    if (energie != 0) energie_debut <- energie - 500
+    nom_fichier3p = paste("bilan_3p",energie,".csv",sep="")
+    data <- read.csv(nom_fichier3p, sep = ";")
+    data <- data[endsWith(data$nom, nom_emet), ]
+    if (energie == 0) print(select(data,1,2,6,9,12:15))
+    if (energie == 0) print(bar_erreur(data,FALSE,FALSE)) else print(bar_erreur(data,FALSE,TRUE))
+  }
+}
+```
+```{r}
+
+
+data <- read.csv("bilan_3p0.csv", sep = ";")
+data <- data[data$annee == annee,]
+print(select(data,1,2,6,9,12:15))
+print(ggplot(data, aes(x = nom, y = moyenne, group = 1, ymin = borne_inf, ymax = borne_sup)) +
+      geom_errorbar(color = "blue", width = 0.4) +
+      geom_point(size = 2, color = "red") +
+      geom_line() +
+  labs(x = "Emetteur", y = "Énergie", title = "Comparaison la moyenne d'énergie de 18 émetteurs")+
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5, size = 10)))
+```
+```{r}
+data <- read.csv("bilan_3p0.csv", sep = ";")
+data <- data[data$annee == annee,]
+data$nom <- 
+print(select(data,1,2,6,9,12:15))
+print(ggplot(data, aes(x = nom, y = moyenne, group = 1, ymin = borne_inf, ymax = borne_sup)) +
+      geom_errorbar(color = "blue", width = 0.4) +
+      geom_point(size = 2, color = "red") +
+      geom_line() +
+  labs(x = "Emetteur", y = "Énergie", title = "Comparaison la moyenne d'énergie de 18 émetteurs")+
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5, size = 10)))
+```
+
+
+#Graphique pour analyser des émetteurs dans l'ensemble de temps
+
+
